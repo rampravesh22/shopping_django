@@ -1,0 +1,8 @@
+django-cors-headers==3.13.0
+django-filter==22.1
+django-livereload-server==0.4
+djangorestframework==3.13.0
+djangorestframework-simplejwt==5.2.1
+autopep8
+virtualenv==20.16.6
+Pillow==9.2.0

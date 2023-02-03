@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	{% include 'app/css.html' %}
+	{% include 'app/js.html' %}
+	<title>ShoppingX | {% block title %} {% endblock title %}</title>
+</head>
+
+<body>
+	{% comment %} Nav bar {% endcomment %}
+	{% include 'app/navbar.html' %}
+
+	{% comment %} banner_slider {% endcomment %}
+	{%block banner_slider %}{% endblock banner_slider %}
+
+	{% comment %} Live sale {% endcomment %}
+	{% block livesale %}{% endblock livesale %}
+
+	{% comment %} Main content {% endcomment %}
+	{% block main-content %} {% endblock main-content%}
+
+	{% comment %} footer {% endcomment %}
+	{% include 'app/footer.html' %}
+</body>
+
+</html>
