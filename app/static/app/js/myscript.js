@@ -25,9 +25,10 @@ $("#slider1, #slider2, #slider3").owlCarousel({
 $(".plus-cart").click(function () {
 	let id = $(this).attr("pid").toString();
 	console.log("clicked");
+	console.log(id);
 	$.ajax({
 		type: "GET",
-		url: "/pluscart/",
+		url: "/pluscart",
 		data: {
 			prod_id: id,
 		},

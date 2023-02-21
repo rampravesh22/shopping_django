@@ -90,6 +90,7 @@ def plus_cart(request):
     if request.method == "GET":
         prod_id = int(request.GET.get('prod_id'))
         print(prod_id)
+        print(type(prod_id))
 
         print("**********************************************")
         c = Cart.objects.get(Q(product=prod_id) & Q(user=request.user))
