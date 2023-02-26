@@ -24,8 +24,7 @@ $("#slider1, #slider2, #slider3").owlCarousel({
 
 $(".plus-cart").click(function () {
 	let id = $(this).attr("pid").toString();
-	console.log("clicked");
-	console.log(id);
+	var eml = this.parentNode.children[2];
 	$.ajax({
 		type: "GET",
 		url: "/pluscart",
@@ -33,7 +32,9 @@ $(".plus-cart").click(function () {
 			prod_id: id,
 		},
 		success: function (data) {
-			console.log(data);
+			eml.innerText = data.quantity;
+			document.getElementById("amount").innerText = data.amount;
+			document.getElementById("totalamount").innerText = data.total_amount;
 		},
 	});
 });

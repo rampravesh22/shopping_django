@@ -1,11 +1,11 @@
-from .forms import CustomerProfileForm
 from django.contrib import messages
-from .forms import CustomerRegisterationForm
-from django.shortcuts import render, redirect
-from django.views import View
 from django.db.models import Q
-from .models import *
 from django.http import JsonResponse
+from django.shortcuts import redirect, render
+from django.views import View
+
+from .forms import CustomerProfileForm, CustomerRegisterationForm
+from .models import *
 
 
 class ProductView(View):
@@ -110,16 +110,17 @@ def plus_cart(request):
             "amount": amount,
             "total_amount": total_amount
         }
-
         return JsonResponse(data)
 
-
+def minus_cart(request):
+    pass
 def buy_now(request):
     return render(request, 'app/buynow.html')
 
 
 # def profile(request):
 #     return render(request, 'app/profile.html')
+
 
 
 def address(request):
