@@ -1,10 +1,13 @@
-from django.urls import path
-from app import views
 from django.contrib.auth import views as auth_views
-from .forms import LoginForm, MyPasswordChangeForm, MyPasswordResetForm, MySetPasswordForm
+from django.urls import path
+
+from app import views
+
+from .forms import (LoginForm, MyPasswordChangeForm, MyPasswordResetForm,
+                    MySetPasswordForm)
+
 urlpatterns = [
     path('', views.ProductView.as_view(), name="home"),
-
     path('product-detail/<int:pk>/',
          views.ProductDetailView.as_view(), name="product-detail"),
 
@@ -14,7 +17,8 @@ urlpatterns = [
     path('add-to-cart/', views.add_to_cart, name='add-to-cart'),
     path('cart/', views.show_cart, name='showcart'),
     path('pluscart/', views.plus_cart, name='pluscart'),
-    # path('pluscart/', views.plus_cart, name='pluscart'),
+    path('minuscart/', views.minus_cart, name='minuscart'),
+    path('removecart/', views.remove_cart, name='removecart'),
 
 
     path('buy/', views.buy_now, name='buy-now'),
