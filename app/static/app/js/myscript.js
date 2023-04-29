@@ -58,7 +58,6 @@ $(".minus-cart").click(function () {
 });
 
 $(".remove-cart").click(function () {
-	console.log("hello");
 	let id = $(this).attr("pid").toString();
 	var eml = this;
 	$.ajax({
@@ -68,8 +67,10 @@ $(".remove-cart").click(function () {
 			prod_id: id,
 		},
 		success: function (data) {
+			console.log("Delete");
 			document.getElementById("amount").innerText = data.amount;
 			document.getElementById("totalamount").innerText = data.total_amount;
+			eml.parentNode.parentNode.parentNode.parentNode.remove();
 		},
 	});
 });

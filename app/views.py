@@ -92,7 +92,6 @@ def plus_cart(request):
         print(prod_id)
         print(type(prod_id))
 
-        print("**********************************************")
         c = Cart.objects.get(Q(product=prod_id) & Q(user=request.user))
         c.quantity += 1
         c.save()
@@ -104,13 +103,13 @@ def plus_cart(request):
         for p in cart_product:
             temp_amount = p.quantity*p.product.discounted_price
             amount += temp_amount
-            total_amount = amount + shipping_amount
         data = {
             'quantity': c.quantity,
             "amount": amount,
-            "total_amount": total_amount
+            "total_amount": amount + shipping_amount
         }
         return JsonResponse(data)
+
 
 def minus_cart(request):
     if request.method == "GET":
@@ -118,7 +117,6 @@ def minus_cart(request):
         print(prod_id)
         print(type(prod_id))
 
-        print("**********************************************")
         c = Cart.objects.get(Q(product=prod_id) & Q(user=request.user))
         c.quantity -= 1
         c.save()
@@ -130,20 +128,18 @@ def minus_cart(request):
         for p in cart_product:
             temp_amount = p.quantity*p.product.discounted_price
             amount += temp_amount
-            total_amount = amount + shipping_amount
         data = {
             'quantity': c.quantity,
             "amount": amount,
-            "total_amount": total_amount
+            "total_amount": amount + shipping_amount
         }
         return JsonResponse(data)
+
 
 def remove_cart(request):
     if request.method == "GET":
         prod_id = int(request.GET.get('prod_id'))
-
-
-        c = Cart.objects.get(Q(product=prod_id) & Q(user=request.user))
+        c = Cart.objects.filter(Q(product=prod_id) & Q(user=request.user))
         c.delete()
         amount = 0.0
         shipping_amount = 70.0
@@ -153,10 +149,9 @@ def remove_cart(request):
         for p in cart_product:
             temp_amount = p.quantity*p.product.discounted_price
             amount += temp_amount
-            total_amount = amount + shipping_amount
         data = {
             "amount": amount,
-            "total_amount": total_amount
+            "total_amount": amount + shipping_amount
         }
         return JsonResponse(data)
 
@@ -167,7 +162,6 @@ def buy_now(request):
 
 # def profile(request):
 #     return render(request, 'app/profile.html')
-
 
 
 def address(request):
@@ -217,4 +211,5 @@ class CustomerRegistrationView(View):
 
 
 def checkout(request):
+
     return render(request, 'app/checkout.html')
