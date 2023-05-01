@@ -29,12 +29,14 @@ urlpatterns = [
     path('address/', views.address, name='address'),
 
     path('orders/', views.orders, name='orders'),
-    path('checkout/', views.checkout, name='checkout'),
+
 
 
     path('mobile/<slug:data>/', views.mobile, name='mobiledata'),
 
     path('mobile/', views.mobile, name='mobile'),
+    path('checkout/', views.checkout, name='checkout'),
+    path('paymentdone/', views.paymentDone, name='paymentdone'),
 
 
 

@@ -7,13 +7,16 @@
 		<div class="col-sm-6">
 			<h4>Order Summary</h4>
 			<hr>
+			{% for item in cartItems %}
 			<div class="card mb-2">
 				<div class="card-body">
-					<h5>Product: Product 1</h5>
-					<p>Quantity: 2</p>
-					<p class="fw-bold">Price: 100.00</p>
+					<h5>Product: {{item.product.title}}</h5>
+					<p>Quantity: {{item.quntity}}</p>
+					<p class="fw-bold">Price: {{item.totalCost}}</p>
 				</div>
 			</div>
+			{% endfor %}
+			<p>Total Cost + Rs. 70 = {{totalAmount}}</p>
 			<small>Term and Condition: Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, ullam saepe!
 				Iure
 				optio repellat dolor velit, minus rem. Facilis cumque neque numquam laboriosam, accusantium adipisci
@@ -23,21 +26,25 @@
 		<div class="col-sm-4 offset-sm-1">
 			<h4>Select Shipping Address</h4>
 			<hr>
-			<form action="">
+			<form action="/paymentdone">
+				{% for ad in add %}
+
 				<div class="card">
 					<div class="card-body">
-						<h5>{{request.user|title}} Kumari</h5>
-						<p>Hirapur Dhanbad Jharkahnd</p>
+						<h5>{{ad.name}} Kumari</h5>
+						<p>{{ad.locality}}, {{ad.city}}, {{ ad.state }} {{ad.state.}} {{ad.zipcode}}</p>
 					</div>
 				</div>
 				<div class="form-check mt-2 mb-5">
-					<input class="form-check-input" type="radio" value="">
-					<label class="form-check-label fw-bold" for="">
-						Address: 1 </label>
+					<input class="form-check-input" type="radio" value="{{ad.id}}" name="custId" id="custId{{forloop.counter}}">
+					<label class="form-check-label fw-bold" for="custId{{forloop.counter}}">
+						Address: {{forloop.counter}}</label>
 				</div>
+				{% endfor %}
 				<div class="text-end">
 					<button type="submit" class="btn btn-warning mt-3 px-5 fw-bold">Continue</button>
 				</div>
+
 			</form>
 		</div>
 	</div>

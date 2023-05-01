@@ -211,5 +211,38 @@ class CustomerRegistrationView(View):
 
 
 def checkout(request):
+    user = request.user
+    add = Customer.objects.filter(user=user)
+    cartItems = Cart.objects.filter(user=user)
+    amount = 0.0
+    shipping_amount = 70.0
+    totalAmount = 0.0
+    totalAmount += shipping_amount
+    cart_product = [
+        p for p in Cart.objects.all() if p.user == request.user
+    ]
+    if cart_product:
+        for p in cart_product:
+            temp_amount = p.quantity*p.product.discounted_price
+            amount += temp_amount
+    totalAmount += amount
 
-    return render(request, 'app/checkout.html')
+    context = {
+        "add": add,
+        "totalAmount": totalAmount,
+        "cartItems": cartItems
+    }
+
+    return render(request, 'app/checkout.html', context)
+
+
+def paymentDone(request):
+    custId = request.GET.get("custId")
+    user = request.user
+    customer = Customer.objects.get(id=custId)
+    cart = Cart.objects.filter(user=user)
+    for c in cart:
+        OrderPlaced(user=user, customer=customer,
+                    product=c.product, quantity=c.quantity).save()
+        c.delete()
+    return redirect("orders")
