@@ -5,6 +5,8 @@ from django.shortcuts import redirect, render
 from django.views import View
 
 from .forms import CustomerProfileForm, CustomerRegisterationForm
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from .models import *
 
 
@@ -28,6 +30,7 @@ class ProductDetailView(View):
         return render(request, 'app/productdetail.html', {"product": product})
 
 
+@method_decorator(login_required, name="dispatch")
 class ProfileView(View):
     def get(self, request):
         form = CustomerProfileForm()
@@ -58,6 +61,7 @@ def product_detail(request):
     return render(request, 'app/productdetail.html')
 
 
+@login_required
 def add_to_cart(request):
     user = request.user
     prod_id = request.GET.get("prod_id")
@@ -66,6 +70,7 @@ def add_to_cart(request):
     return redirect("/cart")
 
 
+@login_required
 def show_cart(request):
     if request.user.is_authenticated:
         user = request.user
@@ -163,15 +168,17 @@ def buy_now(request):
 # def profile(request):
 #     return render(request, 'app/profile.html')
 
-
+@login_required
 def address(request):
     add = Customer.objects.filter(user=request.user)
 
     return render(request, 'app/address.html', {"address": add, "active": "btn-primary"})
 
 
+@login_required
 def orders(request):
-    return render(request, 'app/orders.html')
+    op = OrderPlaced.objects.filter(user=request.user)
+    return render(request, 'app/orders.html', {"orderPlaced": op})
 
 
 def mobile(request, data=None):
@@ -236,6 +243,7 @@ def checkout(request):
     return render(request, 'app/checkout.html', context)
 
 
+@login_required
 def paymentDone(request):
     custId = request.GET.get("custId")
     user = request.user
