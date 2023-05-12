@@ -27,7 +27,12 @@ class ProductView(View):
 class ProductDetailView(View):
     def get(self, request, pk):
         product = Product.objects.get(id=pk)
-        return render(request, 'app/productdetail.html', {"product": product})
+        item_already_in_cart = False
+        if request.user.is_authenticated:
+            item_already_in_cart = Cart.objects.filter(
+                Q(product=product.id) & Q(user=request.user)).exists()
+
+        return render(request, 'app/productdetail.html', {"product": product, "item_already_in_cart": item_already_in_cart})
 
 
 @method_decorator(login_required, name="dispatch")
@@ -217,6 +222,7 @@ class CustomerRegistrationView(View):
         return render(request, 'app/customerregistration.html', {"form": form})
 
 
+@login_required
 def checkout(request):
     user = request.user
     add = Customer.objects.filter(user=user)
